@@ -76,11 +76,14 @@ router.put("/:id", function (req, res, next) {
   }
   Donuts.findById(req.params.id, function (err, donut) {
     if (err) return console.error(err);
-    donut.filling = req.body.filling;
-    donut.glaze = req.body.glaze;
-    donut.pattern = req.body.pattern;
-    donut.topping = req.body.topping;
-    donut.logoShape = req.body.logoShape;
+ 
+    donut.donut.filling = req.body.filling;
+    donut.donut.glaze = req.body.glaze;
+    donut.donut.pattern = req.body.pattern;
+    donut.donut.topping = req.body.topping;
+    donut.donut.logoShape = req.body.logoShape;
+
+    
     donut.save((err, doc) => {
       if (err) {
         res.json({
