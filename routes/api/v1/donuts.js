@@ -76,8 +76,11 @@ router.put("/:id", function (req, res, next) {
   }
   Donuts.findById(req.params.id, function (err, donut) {
     if (err) return console.error(err);
-    donut.user = req.body.user;
-    donut.text = req.body.text;
+    donut.filling = req.body.filling;
+    donut.glaze = req.body.glaze;
+    donut.pattern = req.body.pattern;
+    donut.topping = req.body.topping;
+    donut.logoShape = req.body.logoShape;
     donut.save((err, doc) => {
       if (err) {
         res.json({
