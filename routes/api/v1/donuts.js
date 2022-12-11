@@ -43,11 +43,26 @@ router.get("/:id", function (req, res, next) {
 router.post("/", function (req, res, next) {
   let donut = new Donuts({
     donut:{
-      filling: req.body.filling,
+      dough: req.body.dough,
       glaze: req.body.glaze,
-      pattern: req.body.pattern,
-      topping: req.body.topping,
-      logoShape: req.body.logoShape,
+      pattern: {
+        type: req.body.pattern.type,
+        color: req.body.pattern.color,
+      },
+      topping: {
+        type: req.body.topping.type,
+        color: req.body.topping.color,
+      },
+      logo: {
+        type: req.body.logo.type,
+        img: req.body.logo.img,
+      },
+      user: {
+        name: req.body.user.name,
+        email: req.body.user.email,
+        phone: req.body.user.phone,
+        message: req.body.user.message,
+      }
     }
   });
   donut.save((err, doc) => {
@@ -76,12 +91,25 @@ router.put("/:id", function (req, res, next) {
   }
   Donuts.findById(req.params.id, function (err, donut) {
     if (err) return console.error(err);
- 
-    donut.donut.filling = req.body.filling;
+    
+    donut.donut.dough = req.body.dough;
     donut.donut.glaze = req.body.glaze;
-    donut.donut.pattern = req.body.pattern;
-    donut.donut.topping = req.body.topping;
-    donut.donut.logoShape = req.body.logoShape;
+    donut.donut.pattern.type = req.body.pattern.type;
+    donut.donut.pattern.color = req.body.pattern.color;
+    donut.donut.topping.type = req.body.topping.type;
+    donut.donut.topping.color = req.body.topping.color;
+    donut.donut.logo.type = req.body.logo.type;
+    donut.donut.logo.img = req.body.logo.img;
+    donut.donut.user.name = req.body.user.name;
+    donut.donut.user.email = req.body.user.email;
+    donut.donut.user.phone = req.body.user.phone;
+    donut.donut.user.message = req.body.user.message;
+    
+    // donut.donut.filling = req.body.filling;
+    // donut.donut.glaze = req.body.glaze;
+    // donut.donut.pattern = req.body.pattern;
+    // donut.donut.topping = req.body.topping;
+    // donut.donut.logoShape = req.body.logoShape;
 
     
     donut.save((err, doc) => {
