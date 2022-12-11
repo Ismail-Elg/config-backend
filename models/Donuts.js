@@ -11,7 +11,7 @@ const donutSchema = new Schema({
       required: true,
     },
     pattern:{
-      type: {
+      shape: {
         type: Number,
         required: true,
       },
@@ -21,7 +21,7 @@ const donutSchema = new Schema({
       },
     },
     topping:{
-      type: {
+      shape: {
         type: Number,
         required: true,
       },
@@ -31,7 +31,7 @@ const donutSchema = new Schema({
       },
     },
     logo:{
-      type: {
+      shape: {
         type: Number,
         required: true,
       },

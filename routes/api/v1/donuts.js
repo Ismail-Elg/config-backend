@@ -41,20 +41,21 @@ router.get("/:id", function (req, res, next) {
 });
 
 router.post("/", function (req, res, next) {
+  console.log(req.body);
   let donut = new Donuts({
     donut:{
       dough: req.body.dough,
       glaze: req.body.glaze,
       pattern: {
-        type: req.body.pattern.type,
+        shape: req.body.pattern.shape,
         color: req.body.pattern.color,
       },
       topping: {
-        type: req.body.topping.type,
+        shape: req.body.topping.shape,
         color: req.body.topping.color,
       },
       logo: {
-        type: req.body.logo.type,
+        shape: req.body.logo.shape,
         img: req.body.logo.img,
       },
       user: {
@@ -94,11 +95,11 @@ router.put("/:id", function (req, res, next) {
     
     donut.donut.dough = req.body.dough;
     donut.donut.glaze = req.body.glaze;
-    donut.donut.pattern.type = req.body.pattern.type;
+    donut.donut.pattern.shape = req.body.pattern.shape;
     donut.donut.pattern.color = req.body.pattern.color;
-    donut.donut.topping.type = req.body.topping.type;
+    donut.donut.topping.shape = req.body.topping.shape;
     donut.donut.topping.color = req.body.topping.color;
-    donut.donut.logo.type = req.body.logo.type;
+    donut.donut.logo.shape = req.body.logo.shape;
     donut.donut.logo.img = req.body.logo.img;
     donut.donut.user.name = req.body.user.name;
     donut.donut.user.email = req.body.user.email;
