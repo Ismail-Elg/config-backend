@@ -2,7 +2,7 @@ let mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const donutSchema = new Schema({
   donut: {
-    filling: {
+    dough: {
       type: Number,
       required: true,
     },
@@ -11,17 +11,53 @@ const donutSchema = new Schema({
       required: true,
     },
     pattern:{
-      type: Number,
-      required: true,
+      type: {
+        type: Number,
+        required: true,
+      },
+      color:{
+        type: Number,
+        required: true,
+      },
     },
     topping:{
-      type: Number,
-      required: true,
+      type: {
+        type: Number,
+        required: true,
+      },
+      color:{
+        type: Number,
+        required: true,
+      },
     },
-    logoShape:{
-      type: Number,
-      required: true,
+    logo:{
+      type: {
+        type: Number,
+        required: true,
+      },
+      img:{
+        type: String,
+        required: true,
+      },
     },
+    user: {
+      name: {
+        type: String,
+        required: true,
+      },
+      email: {
+        type: String,
+        required: true,
+      },
+      phone: {
+        type: String,
+        required: true,
+      },
+      message: {
+        type: String,
+        required: true,
+      }
+    }
   }
   });
 
