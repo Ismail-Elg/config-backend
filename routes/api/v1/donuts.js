@@ -41,31 +41,32 @@ router.get("/:id", function (req, res, next) {
 });
 
 router.post("/", function (req, res, next) {
-  console.log(req.body);
+  console.log(req.body)
   let donut = new Donuts({
     donut:{
-      dough: req.body.dough,
-      glaze: req.body.glaze,
+      dough: req.body.donut.dough,
+      glaze: req.body.donut.glaze,
       pattern: {
-        shape: req.body.pattern.shape,
-        color: req.body.pattern.color,
+        type: req.body.donut.pattern.type,
+        color: req.body.donut.pattern.color,
       },
       topping: {
-        shape: req.body.topping.shape,
-        color: req.body.topping.color,
+        type: req.body.donut.topping.type,
+        color: req.body.donut.topping.color,
       },
       logo: {
-        shape: req.body.logo.shape,
-        img: req.body.logo.img,
+        type: req.body.donut.logo.type,
+        img: req.body.donut.logo.img,
       },
       user: {
-        name: req.body.user.name,
-        email: req.body.user.email,
-        phone: req.body.user.phone,
-        message: req.body.user.message,
+        name: req.body.donut.user.name,
+        email: req.body.donut.user.email,
+        phone: req.body.donut.user.phone,
+        message: req.body.donut.user.message,
       }
     }
   });
+  console.log(donut.donut)
   donut.save((err, doc) => {
     if (err) {
       res.json({
@@ -95,11 +96,11 @@ router.put("/:id", function (req, res, next) {
     
     donut.donut.dough = req.body.dough;
     donut.donut.glaze = req.body.glaze;
-    donut.donut.pattern.shape = req.body.pattern.shape;
+    donut.donut.pattern.type = req.body.pattern.type;
     donut.donut.pattern.color = req.body.pattern.color;
-    donut.donut.topping.shape = req.body.topping.shape;
+    donut.donut.topping.type = req.body.topping.type;
     donut.donut.topping.color = req.body.topping.color;
-    donut.donut.logo.shape = req.body.logo.shape;
+    donut.donut.logo.type = req.body.logo.type;
     donut.donut.logo.img = req.body.logo.img;
     donut.donut.user.name = req.body.user.name;
     donut.donut.user.email = req.body.user.email;
