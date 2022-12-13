@@ -39,26 +39,16 @@ router.post('/', function (req, res, next) {
   });
 
   //make sure user doesn't already exist
-    User.findOne
-    ({ name
-    : req.body.name })
-    .then(user => {
+    User.findOne({ name : req.body.name }).then(user => {
         if (user) {
-            // User already exists
             return res.status(400).json({ name: "User already exists" });
         } else {
-            // Save user
-            newUser.save()
-                .then(user => res.json(user))
-                .catch(err => console.log(err));
-        }
-    });
+            
+         }
+        });
 });
 
-
-// PUT route for updating data
 router.put('/:id', function (req, res, next) {
-  // update user here
   User.findByIdAndUpdate(req.params.id, req.body, { new: true })
     .then(user => {
       res.json(user);
