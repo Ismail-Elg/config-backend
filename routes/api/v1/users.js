@@ -38,24 +38,23 @@ router.post('/', function (req, res, next) {
     password: req.body.password
   });
 
-  newUser
-    .save()
+  //make sure user doesn't already exist
+    User.findOne
+    ({ name
+    : req.body.name })
     .then(user => {
-   
-      const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
-        expiresIn: "60 days"
-      });
-
-      res.cookie('nToken', token, { maxAge: 900000, httpOnly: true });
-      res.status(200).json({
-        message: 'User successfully created!'
-      });
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(400).json({ error: err });
+        if (user) {
+            // User already exists
+            return res.status(400).json({ name: "User already exists" });
+        } else {
+            // Save user
+            newUser.save()
+                .then(user => res.json(user))
+                .catch(err => console.log(err));
+        }
     });
 });
+
 
 // PUT route for updating data
 router.put('/:id', function (req, res, next) {
