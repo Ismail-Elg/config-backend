@@ -32,7 +32,7 @@ router.get('/:id', function (req, res, next) {
 
 // POST route for creating data
 router.post('/', function (req, res, next) {
-  // create user here
+
   const newUser = new User({
     name: req.body.name,
     password: req.body.password
@@ -41,9 +41,18 @@ router.post('/', function (req, res, next) {
   //make sure user doesn't already exist
     User.findOne({ name : req.body.name }).then(user => {
         if (user) {
-            return res.status(400).json({ name: "User already exists" });
+           //check if user is valid and has correct password
+              if (user.password == req.body.password) {
+                //create token
+                const token = jwt.sign({ name: user.name }, secretOrPrivateKey, { expiresIn: '1h' });
+                res.status(200).json({ message: 'User is valid.', status:"success", token: token });
+              }
+                else {  
+                    res.status(200).json({ message: 'password is not valid.', status:"error" });
+                    }
         } else {
-            
+
+            res.status(200).json({ message: 'User does not exist.', status:"error" });
          }
         });
 });
