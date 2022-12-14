@@ -58,6 +58,7 @@ router.post("/", function (req, res, next) {
         type: req.body.donut.logo.type,
         img: req.body.donut.logo.img,
       },
+      screenshot: req.body.donut.screenshot,
       user: {
         name: req.body.donut.user.name,
         email: req.body.donut.user.email,

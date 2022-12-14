@@ -40,6 +40,10 @@ const donutSchema = new Schema({
         required: true,
       },
     },
+    screenshot: {
+      type: String,
+      required: true,
+    },
     user: {
       name: {
         type: String,
