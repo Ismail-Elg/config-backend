@@ -103,6 +103,7 @@ router.put("/:id", function (req, res, next) {
     donut.donut.topping.color = req.body.topping.color;
     donut.donut.logo.type = req.body.logo.type;
     donut.donut.logo.img = req.body.logo.img;
+    donut.donut.screenshot = req.body.screenshot;
     donut.donut.user.name = req.body.user.name;
     donut.donut.user.email = req.body.user.email;
     donut.donut.user.phone = req.body.user.phone;
