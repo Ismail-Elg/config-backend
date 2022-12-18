@@ -1,6 +1,8 @@
 let express = require("express");
 let router = express.Router();
 
+const jwt = require('jsonwebtoken');
+
 router.post('/', function (req, res, next) {
     jwt.verify(req.body.token, secretOrPrivateKey, function (err, decoded) {
         if (err) {
