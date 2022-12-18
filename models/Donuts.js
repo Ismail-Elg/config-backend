@@ -61,6 +61,11 @@ const donutSchema = new Schema({
         type: String,
         required: true,
       }
+    },
+    status: {
+      type: Number,
+      required: true,
+      default: 0,
     }
   }
   });
