@@ -43,8 +43,7 @@ router.post('/', function (req, res, next) {
         if (user) {
            //check if user is valid and has correct password
               if (user.password == req.body.password) {
-                //create token
-                const token = jwt.sign({ name: user.name }, secretOrPrivateKey, { expiresIn: '1h' });
+                const token = jwt.sign({}, secretOrPrivateKey, { expiresIn: '1h' });
                 res.status(200).json({ message: 'User is valid.', status:"success", token: token });
               }
                 else {  
