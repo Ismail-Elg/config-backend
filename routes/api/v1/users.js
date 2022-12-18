@@ -52,7 +52,7 @@ router.post('/', function (req, res, next) {
                     }
         } else {
 
-            res.status(200).json({ message: 'User does not exist.', status:"error" });
+            res.status(200).json({ message: 'Wrong username or password.', status:"error" });
          }
         });
 });
