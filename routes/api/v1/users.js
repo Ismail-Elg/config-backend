@@ -87,40 +87,38 @@ router.post('/', function (req, res, next) {
   });
 });
 
-//register route
-router.post('/register', function (req, res, next) {
-  bcrypt.hash(req.body.password, 10, function(err, hash) {
-    if (err) {
-      res.status(500).json({ message: 'Error hashing password.', status: "error" });
-    } else {
-      //check if user already exists
-      User
-        .findOne
-        ({
-          name: req.body.name
-        })
-        .then(user => {
-          if (user) {
-            res.status(200).json({ message: 'User already exists.', status: "error" });
-          } else {
-            //create new user
-            const newUser = new User({
-              name: req.body.name,
-              password: hash
-            });
-            newUser.save()
-              .then(user => {
-                res.status(200).json({ message: 'User created.', status: "success" });
-              })
-              .catch(err => {
-                res.status(500).json({ message: 'Error creating user.', status: "error" });
-              });
-          }
-        });
+router.post('/register', async (req, res) => {
+  try {
+    // Check if the request body contains a name and password
+    if (!req.body.name || !req.body.password) {
+      return res.status(400).json({ message: 'Missing name or password.' });
     }
-  });
-});
 
+    // Hash the password using bcrypt
+    const hash = await bcrypt.hash(req.body.password, 10);
+
+    // Check if a user with the same name already exists
+    const user = await User.findOne({ name: req.body.name });
+    if (user) {
+      return res.status(409).json({ message: 'Already taken, try other credentials' });
+    }
+
+    // Create a new user with the hashed password
+    const newUser = new User({
+      name: req.body.name,
+      password: hash
+    });
+
+    // Save the new user to the database
+    await newUser.save();
+
+    // Return a success message to the client
+    res.status(201).json({ message: 'User created.' });
+  } catch (err) {
+    // Return a server error message to the client
+    res.status(500).json({ message: 'Error creating user.' });
+  }
+});
 
 router.put('/:id', function (req, res, next) {
   User.findByIdAndUpdate(req.params.id, req.body, { new: true })
