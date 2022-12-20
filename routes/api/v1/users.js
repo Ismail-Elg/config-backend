@@ -70,7 +70,7 @@ router.post('/change', async (req, res) => {
     // Compare the provided current password with the hashed password in the database
     const passwordMatch = await bcrypt.compare(req.body.currentPassword, user.password);
     if (!passwordMatch) {
-      return res.status(401).json({ message: 'Invalid name or password.' });
+      return res.status(401).json({ message: 'Invalid password.' });
     }
 
     // Check if the new password and confirm password fields match
