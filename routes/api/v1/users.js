@@ -47,7 +47,7 @@ router.post('/', async (req, res) => {
     }
 
     // If the name and password are valid, return a success message to the client
-    res.json({ message: 'Logged in successfully.' });
+    res.json({ message: 'Logged in successfully.', status: "success"});
   } catch (err) {
     // Return a server error message to the client
     res.status(500).json({ message: 'Error logging in.' });
