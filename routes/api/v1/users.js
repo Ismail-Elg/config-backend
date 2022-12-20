@@ -148,4 +148,30 @@ router.delete('/:id', function (req, res, next) {
     });
 });
 
+router.post('/info', (req, res) => {
+  //post token here
+  const token = req.body.token;
+  if (!token) {
+    return res.status(401).json({ message: 'Missing token.' });
+  }
+  else{
+    //verify token and get the user name
+    jwt.verify(token, secretOrPrivateKey, (err, decoded) => {
+      if (err) {
+        return res.status(401).json({ message: 'Invalid token.' });
+      }
+      else{
+        //find user by name
+        User.findOne({ name: decoded.name })
+        .then(user => {
+          res.json(user);
+        })
+        .catch(err => {
+          res.status(500).json({ error: err });
+        });
+      }
+    });
+  }
+});
+
 module.exports = router;
