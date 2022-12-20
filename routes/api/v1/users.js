@@ -54,6 +54,45 @@ router.post('/', async (req, res) => {
   }
 });
 
+router.post('/change', async (req, res) => {
+  try {
+    // Check if the request body contains the current password, new password, and confirm password
+    if (!req.body.currentPassword || !req.body.newPassword || !req.body.confirmPassword) {
+      return res.status(400).json({ message: 'Missing one or more of the required fields.' });
+    }
+
+    // Find the user
+    const user = await User.findOne({ name: req.body.name });
+    if (!user) {
+      return res.status(401).json({ message: 'Invalid name or password.' });
+    }
+
+    // Compare the provided current password with the hashed password in the database
+    const passwordMatch = await bcrypt.compare(req.body.currentPassword, user.password);
+    if (!passwordMatch) {
+      return res.status(401).json({ message: 'Invalid name or password.' });
+    }
+
+    // Check if the new password and confirm password fields match
+    if (req.body.newPassword !== req.body.confirmPassword) {
+      return res.status(400).json({ message: 'New password and confirm password do not match.' });
+    }
+
+    // Hash the new password
+    const hash = await bcrypt.hash(req.body.newPassword, 10);
+
+    // Update the user's password in the database
+    user.password = hash;
+    await user.save();
+
+    // Return a success message to the client
+    res.json({ message: 'Password changed successfully.', status: "success", token: jwt.sign({ name: user.name }, secretOrPrivateKey) });
+  } catch (err) {
+    // Return a server error message to the client
+    res.status(500).json({ message: 'Error changing password.' });
+  }
+});
+
 router.post('/register', async (req, res) => {
   try {
     // Check if the request body contains a name and password
