@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const User = require('../../../models/Users');
+const bcrypt = require('bcrypt');
 
 //const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
 const secretOrPrivateKey = 'GciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzd';
@@ -51,11 +52,76 @@ router.post('/', function (req, res, next) {
                     res.status(200).json({ message: 'password is not valid.', status:"error" });
                     }
         } else {
-
             res.status(200).json({ message: 'User does not exist.', status:"error" });
          }
         });
 });
+
+
+router.post('/', function (req, res, next) {
+  
+  bcrypt.hash(req.body.password, 10, function(err, hash) {
+    if (err) {
+      res.status(500).json({ message: 'Error hashing password.', status: "error" });
+    } else {
+      //check if user already exists
+      User.findOne({ name
+        : req.body.name }).then(user => {
+        if (user) {
+          res.status(200).json({ message: 'User already exists.', status: "error" });
+        } else {
+          //create new user
+          const newUser = new User({
+            name: req.body.name,
+            password: hash
+          });
+          newUser.save()
+            .then(user => {
+              res.status(200).json({ message: 'User created.', status: "success" });
+            })
+            .catch(err => {
+              res.status(500).json({ message: 'Error creating user.', status: "error" });
+            });
+        }
+      });
+    }
+  });
+});
+
+//register route
+router.post('/register', function (req, res, next) {
+  bcrypt.hash(req.body.password, 10, function(err, hash) {
+    if (err) {
+      res.status(500).json({ message: 'Error hashing password.', status: "error" });
+    } else {
+      //check if user already exists
+      User
+        .findOne
+        ({
+          name: req.body.name
+        })
+        .then(user => {
+          if (user) {
+            res.status(200).json({ message: 'User already exists.', status: "error" });
+          } else {
+            //create new user
+            const newUser = new User({
+              name: req.body.name,
+              password: hash
+            });
+            newUser.save()
+              .then(user => {
+                res.status(200).json({ message: 'User created.', status: "success" });
+              })
+              .catch(err => {
+                res.status(500).json({ message: 'Error creating user.', status: "error" });
+              });
+          }
+        });
+    }
+  });
+});
+
 
 router.put('/:id', function (req, res, next) {
   User.findByIdAndUpdate(req.params.id, req.body, { new: true })
