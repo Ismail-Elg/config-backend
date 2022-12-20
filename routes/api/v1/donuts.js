@@ -64,7 +64,8 @@ router.post("/", function (req, res, next) {
         email: req.body.donut.user.email,
         phone: req.body.donut.user.phone,
         message: req.body.donut.user.message,
-      }
+      },
+      status: req.body.donut.status,
     }
   });
   console.log(donut.donut)
@@ -108,6 +109,7 @@ router.put("/:id", function (req, res, next) {
     donut.donut.user.email = req.body.user.email;
     donut.donut.user.phone = req.body.user.phone;
     donut.donut.user.message = req.body.user.message;
+    donut.donut.status = req.body.status;
     
     // donut.donut.filling = req.body.filling;
     // donut.donut.glaze = req.body.glaze;

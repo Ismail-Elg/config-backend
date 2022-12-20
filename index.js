@@ -7,6 +7,7 @@ let logger = require('morgan');
 let indexRouter = require('./routes/api/v1/index');
 let donutsRouter = require('./routes/api/v1/donuts');
 let userRouter = require('./routes/api/v1/users');
+let tokenRouter = require('./middleware/validate');
 
 let cors = require('cors');
 
@@ -30,6 +31,8 @@ app.use(cors());
 app.use('/', indexRouter);
 app.use('/api/v1/donuts', donutsRouter);
 app.use('/api/v1/users', userRouter);
+app.use('/api/v1/users/validate', tokenRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
